@@ -1,0 +1,266 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "SOLID Quick Start",
+    "description": "This is an API user controller",
+    "version": "1.0.0",
+    "contact": {
+      "email":"tk@tk.com"
+    }
+  },
+  "paths": {
+    "/users": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "Create a user",
+        "description": "To create a new user you will need to pass the name and email address in the body of the request.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": {
+                "name": "Thiago",
+                "description": "thiago@tk.com.br"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "User already exists"
+          }
+        }
+      },
+      "get": {
+        "tags": ["Users"],
+        "summary": "List all users",
+        "description": "List all users",
+        "parameters": [
+          {
+            "in": "headers",
+            "name": "user_id",
+            "schema": {
+              "type": "string",
+              "format": "uuidv4"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "example": [
+                  {
+                      "id": "dc76c4ca-6c43-4b78-ad8c-18af1e4ba2f6",
+                      "admin": true,
+                      "name": "Thiago",
+                      "email": "thiago@tk.com",
+                      "created_at": "2022-09-13T22:33:12.913Z",
+                      "updated_at": "2022-09-13T22:33:12.913Z"
+                  },
+                  {
+                      "id": "0e441ca9-729a-4772-b198-9f5ef0c7fb88",
+                      "admin": false,
+                      "name": "Karla",
+                      "email": "karla@ka.com",
+                      "created_at": "2022-09-13T22:33:39.862Z",
+                      "updated_at": "2022-09-13T22:33:39.862Z"
+                  },
+                  {
+                      "id": "e45b3258-c790-4454-b3f2-fca8de85b710",
+                      "admin": false,
+                      "name": "Marvin",
+                      "email": "Marvin@marvel.com",
+                      "created_at": "2022-09-13T22:33:52.822Z",
+                      "updated_at": "2022-09-13T22:33:52.822Z"
+                  }
+                ]
+              }
+            }
+          },
+          "400": {
+            "description": "Bab Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "example": {
+                  "error": "Email already exists!"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/:user_id": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Retrieve a user by Id.",
+        "description": "Retrieve the user by his Id",
+        "parameters": [
+          {
+            "in": "params",
+            "name": "user_id",
+            "schema": {
+              "type": "string",
+              "format": "uuidv4"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "example": {
+                  "id": "ae917a7e-8d49-44ae-b021-4f43724eb14a",
+                  "admin": false,
+                  "name": "Thiago",
+                  "email": "thiago@tk.com",
+                  "created_at": "2022-09-13T22:54:39.754Z",
+                  "updated_at": "2022-09-13T22:54:39.754Z"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "example": {
+                  "error": "User not found!"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/:user_id/admin": {
+      "patch": {
+        "tags": ["Users"],
+        "summary": "Make a user as admin.",
+        "description": "Make a user an administrator by passing its id in the request parameter.",
+        "parameters": [
+          {
+            "in": "params",
+            "name": "user_id",
+            "schema": {
+              "type": "string",
+              "format": "uuidv4"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "example": {
+                  "id": "ae917a7e-8d49-44ae-b021-4f43724eb14a",
+                  "admin": false,
+                  "name": "Thiago",
+                  "email": "thiago@tk.com",
+                  "created_at": "2022-09-13T22:54:39.754Z",
+                  "updated_at": "2022-09-13T22:54:39.754Z"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "example": {
+                  "error": "User not found!"
+                }
+              }
+            }
+          }
+        }
+      }  
+    }
+  }
+}
